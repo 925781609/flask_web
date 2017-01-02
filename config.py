@@ -12,7 +12,7 @@ DB_URI = 'mysql+mysqlconnector://{}:{}@{}/{}'.format(
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True   
-    MAIL_SERVER = 'smtp.qq.com'
+    MAIL_SERVER = 'smtp.yeah.cn'
     MAIL_PORT = 465
     MAIL_USE_SSL = True
     MAIL_USERNAME =os.environ.get('MAIL_USERNAME') , 
