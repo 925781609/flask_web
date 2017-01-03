@@ -18,7 +18,7 @@ manager.add_command('db', MigrateCommand)
 def deploy():
     """ run deployment tasks """
     from flask_migrate import upgrade
-    from app.modules import User, Role
+    from app.models import User, Role
 
     #Migrate datebase to latest version
     upgrade()
