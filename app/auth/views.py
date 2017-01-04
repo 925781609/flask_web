@@ -87,6 +87,6 @@ def unconfirmed():
 @auth.route('/confirm', methods=['GET', 'PSOT'])
 def resend_confirmation():
         token = current_user.generate_confirmation_token()
-        #send_mail(user.email, 'confirm Your Account', 'auth/email/confirm', user=current_user, token=token)
+        send_mail(user.email, 'confirm Your Account', 'auth/email/confirm', user=current_user, token=token)
         return redirect(url_for('main.index'))
 
