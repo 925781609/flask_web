@@ -1,0 +1,15 @@
+NAME :  web
+DESCRIPTION: 
+	1)This is a web blog app based on FLASK
+	2) Some main source code was refered <Flask Web Development:Developing Web Applications with python> 
+	3)This application has been deployed on heroku
+
+
+Usage:
+	After you git clone this project, you need:
+	1) cd  web/
+	2) pip install -r requirement.txt
+	3) python manage.py runserver
+
+
+Have fun and enjoy it~
