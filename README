@@ -1,8 +1,9 @@
 NAME :  web
 DESCRIPTION: 
 	1)This is a web blog app based on FLASK
-	2) Some main source code was refered <Flask Web Development:Developing Web Applications with python> 
-	3)This application has been deployed on heroku
+	2)This application has been deployed on heroku
+Tags:
+	v0.1:  1st version deployed on heroku,  some main source code was refered <Flask Web Development:Developing Web Applications with python> 
 
 
 Usage:
