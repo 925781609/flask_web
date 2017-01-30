@@ -32,7 +32,7 @@ def guess_number():
             flash(u'Failed to guess the right number ....o(>_<)o')
             flash(u'The real number is {}'.format(result))
             start_to_guess = 1
-            return redirect(ur_for('main.index'))
+            return redirect(url_for('main.index'))
         answer = form.number.data
         if answer > result:
             flash(u'Too big! you still have %s times chance' % times)
