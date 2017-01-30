@@ -41,6 +41,6 @@ def guess_number():
         else:
             flash(u'You win')
             start_to_guess = 1
-            return redirect(url_for(main.index))
+            return redirect(url_for('main.index'))
     return render_template('guess.html', form=form)
 
