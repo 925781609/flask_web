@@ -16,7 +16,7 @@ def guess_number():
     #Generate an integer between 0 and 1000, and save it in session
     session['number'] = randint(0, 1000)
     session['times'] = 10
-
+    print('guess_number() was called')
     times = session['times']
     result = session.get('number') 
     form = GuessNumberForm()
