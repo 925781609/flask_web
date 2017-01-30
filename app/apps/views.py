@@ -28,7 +28,7 @@ def guess_number():
             flash(u'The real number is {}'.format(result))
             return redirect(ur_for('main.index'))
         answer = form.number.data
-        if ansewer > result:
+        if answer > result:
             flash(u'Too big! you still have %s times chance' % times)
         elif answer < result:
             flash(u'Too small! you still have %s times chance' % times)
