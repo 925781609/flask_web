@@ -30,8 +30,8 @@ def guess_number():
         if ansewer > result:
             flash(u'Too big! you still have %s times chance' % times)
         elif answer < result:
-            flash((u'Too small! you still have %s times chance' % times)
+            flash(u'Too small! you still have %s times chance' % times)
         else:
-            flash((u'You win')
+            flash(u'You win')
     return render_template('guess.html', form=form)
 
