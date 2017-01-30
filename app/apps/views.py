@@ -2,7 +2,8 @@ from . import apps
 from random import randint
 from flask import render_template, flash, url_for
 from flask_wtf import Form
-from wtforms import Integer
+from wtforms import IntegerField, SubmitField
+from wtforms.validators import Required, NumberRange
 
 class GuessNumberForm(Form):
     number = IntegerField(u'Please guess a number between 0 and 1000:', 
