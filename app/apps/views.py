@@ -10,7 +10,7 @@ class GuessNumberForm(Form):
                           NumberRange(0, 1000, u'the number should be 0 - 1000') ])
     submit = SubmitField(u'Submit')
 
-@apps.route('/guess_number', methods=['GET'])
+@apps.route('/guess_number', methods=['GET', 'POST'])
 def guess_number():
     #Generate an integer between 0 and 1000, and save it in session
     session['number'] = randint(0, 1000)
@@ -19,8 +19,19 @@ def guess_number():
     times = session['times']
     result = session.get('number') 
     form = GuessNumberForm()
-    if form.valid_on_submit():
-
-
-    return "Pls guess a number"
+    if form.validate_on_submit():
+        times -= 1
+        session['times'] = times
+        if times == 0:
+            flash(u'Failed to guess the right number ....o(>_<)o')
+            flash(u'The real number is {}'.format(result))
+            return redirect(ur_for('main.index'))
+        answer = form.number.data
+        if ansewer > result:
+            flash((u'Too big! you still have %s times chance' % times)
+        elif answer < result:
+            flash((u'Too small! you still have %s times chance' % times)
+        else:
+            flash((u'You win')
+    return render_template('guess.html', form=form)
 
