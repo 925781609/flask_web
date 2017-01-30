@@ -21,8 +21,10 @@ def guess_number():
     result = session.get('number') 
     form = GuessNumberForm()
     if form.validate_on_submit():
+        print('times is %s' % times)
         times -= 1
         session['times'] = times
+        print("session['times'] is %s" % times)
         if times == 0:
             flash(u'Failed to guess the right number ....o(>_<)o')
             flash(u'The real number is {}'.format(result))
