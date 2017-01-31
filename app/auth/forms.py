@@ -8,7 +8,7 @@ class LoginForm(Form):
     email = StringField('Email', validators = [Required(), Length(1, 64), Email()])
     password = PasswordField('Password', validators = [Required( )])
     remember_me = BooleanField('Keep me logged in')
-    submit = SubmitField('Login In')
+    submit1 = SubmitField('Login In')
     
 class RegistrationForm(Form):
     email = StringField('Email', validators=[Required(), Length(1,64), Email()])
@@ -17,7 +17,7 @@ class RegistrationForm(Form):
     password = PasswordField('Password', validators=[Required(), 
         EqualTo('password2', message='Passwords must match.')])
     password2 = PasswordField('Confirm password', validators = [ Required() ])
-    submit = SubmitField("Register")
+    submit2 = SubmitField("Register")
 
     def validate_email(self, field):
         if User.query.filter_by(email=field.data).first():
