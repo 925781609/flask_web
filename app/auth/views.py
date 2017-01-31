@@ -9,15 +9,29 @@ from ..email import send_mail
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
-    form = LoginForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
-        if user is not None and user.verify_password(form.password.data):
-            login_user(user, form.remember_me.data)
+    logform = LoginForm()
+    regform = RegistrationForm()
+    # deal with login form submit
+    if logform.submit1.data and logform.validate_on_submit(): #Notice sequence
+        user = User.query.filter_by(email=logform.email.data).first()
+        if user is not None and user.verify_password(logform.password.data):
+            login_user(user, logform.remember_me.data)
             print('reqest.agrs.get(next)',(request.args.get('next' )))
             return redirect(request.args.get('next') or url_for('main.index'))
         flash('Invalid username or password.')
-    return render_template('auth/login.html', form=form)
+    # deal with register form submit
+    if regform.submit2.data and regform.validate_on_submit(): #Notice sequence
+        user = User(email = regform.email.data,
+                    username = regform.username.data,
+                    password = regform.password.data)
+        db.session.add(user)
+        db.session.commit()
+        token = user.generate_confirmation_token()
+        send_mail(user.email, 'confirm Your Account', 'auth/email/confirm', user=user, token=token)
+        flash('A Confirmation email has been sent to you by email.')
+        #return redirect(url_for('auth.login')) #seems doesnot need it any more 
+    return render_template('auth/login.html', logform=logform, regform=regform)
+
 
 @auth.route('/logout', methods=['GET', 'POST'])
 @login_required
@@ -27,20 +41,6 @@ def logout():
     return redirect(url_for('main.index'))
 
 
-@auth.route('/register', methods=['GET', 'POST'])
-def register():
-    form = RegistrationForm()
-    if form.validate_on_submit():
-        user = User(email = form.email.data,
-                    username = form.username.data,
-                    password = form.password.data)
-        db.session.add(user)
-        db.session.commit()
-        token = user.generate_confirmation_token()
-        send_mail(user.email, 'confirm Your Account', 'auth/email/confirm', user=user, token=token)
-        flash('A Confirmation email has been sent to you by email.')
-        return redirect(url_for('auth.login'))
-    return render_template('auth/register.html', form = form )
 
 
 @auth.route('/confirm/<token>')

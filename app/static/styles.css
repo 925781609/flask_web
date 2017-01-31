@@ -63,4 +63,11 @@ div.flask-pagedown-preview h3 {
 .post-body h3 {
     font-size: 120%;
 }
-
+.logform {
+    width: 50%;
+    float: left;
+}
+.regform {
+    width: 50%;
+    float: right;
+}
