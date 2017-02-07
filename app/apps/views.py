@@ -4,6 +4,7 @@ from flask import render_template, redirect, flash, url_for, session
 from flask_wtf import Form
 from wtforms import IntegerField, SubmitField
 from wtforms.validators import Required, NumberRange
+from ..models import Item
 start_to_guess  = 1
 class GuessNumberForm(Form):
     number = IntegerField(u'Please guess a number between 0 and 1000:', 
@@ -42,5 +43,16 @@ def guess_number():
             flash(u'You win')
             start_to_guess = 1
             return redirect(url_for('main.index'))
-    return render_template('guess.html', form=form)
+    return render_template('apps/guess.html', form=form)
 
+@apps.route('/todo', methods=['GET', 'POST'])
+def todo_list():
+    flash(u'todo_list view function was called')
+    item = Item()
+    return render_template('apps/todo.html', item = item)
+
+@apps.route('/edit_list/<int:id>', methods=['GET', 'POST'])
+def edit_list():
+    flash(u'todo_list view function was called')
+    item = Item()
+    return render_template('apps/todo.html', item = item)
