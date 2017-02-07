@@ -1,46 +1,81 @@
-{% extends "bootstrap/base.html" %}
-
-{% block title %}Blog{% endblock %}
-
 {% block head %}
-{{ super() }}
+<title>Blog</title>
+<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link href="//cdn.bootcss.com/materialize/0.97.8/css/materialize.min.css" rel="stylesheet">
+<link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
 <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
-<link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 {% endblock %}
 
-{% block navbar %}
-<div class="navbar navbar-inverse" role="navigation">
-    <div class="container">
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li><a href="{{ url_for('main.index') }}">Home</a></li>
+{% block body %}
+<div class="navbar">
+    <nav class="#00897b teal darken-1" role="navigation">
+        <div class="nav-wrapper container"><a id="logo-container" href="{{ url_for('main.index')}}" class="brand-logo">Home</a>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="https://github.com/925781609/web" target="_blank">Github</a></li>
                 {% if current_user.is_authenticated %}
                 <li><a href="{{ url_for('main.user', username=current_user.username) }}">Profile</a></li>
                 {% endif %}
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Apps <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
+                    <a class='dropdown-button btn' href="#"  data-activates='dropdown1' >Apps</a>
+                    <ul id='dropdown1' class='dropdown-content'>
                         <li><a href="{{ url_for('apps.guess_number') }}">Guess Number</a></li>
-                        <li><a href="{{ url_for('auth.logout') }}">To do-List(Not ready)</a></li>
+                        <li><a href="{{ url_for('apps.todo_list') }}">To do-List(Not ready)</a></li>
+                    </ul>
+                {% if current_user.can(Permission.MODERATE_COMMENTS) %}
+                <li><a href="{{ url_for('main.moderate') }}">Moderate Comments</a></li>
+                {% endif %}
+                {% if current_user.is_authenticated %}
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <img src="{{ current_user.gravatar(size=18) }}">
+                        Account <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ url_for('auth.change_password') }}">Change Password</a></li>
+                        <li><a href="{{ url_for('auth.change_email_request') }}">Change Email</a></li>
+                        <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
                     </ul>
                 </li>
+                {% else %}
+                <li><a class="waves-effect waves-light btn signin"  href="{{ url_for('auth.login') }}">登录/注册</a></li>
+                {% endif %}
+                </li>
             </ul>
-            <ul class="nav navbar-nav navbar-right">
-                {% if current_user.is_authenticated %}
+            <ul id="nav-mobile" class="side-nav">
+                    <li><a href="https://github.com/925781609/web" target="_blank">Github</a></li>
+                    {% if current_user.is_authenticated %}
+                    <li><a href="{{ url_for('main.user', username=current_user.username) }}">Profile</a></li>
+                    {% endif %}
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account <b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" target='_blank'>Apps <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ url_for('apps.guess_number') }}">Guess Number</a></li>
+                            <li><a href="{{ url_for('apps.todo_list') }}">To do-List(Not ready)</a></li>
+                        </ul>
+                    {% if current_user.can(Permission.MODERATE_COMMENTS) %}
+                    <li><a href="{{ url_for('main.moderate') }}">Moderate Comments</a></li>
+                    {% endif %}
+                    {% if current_user.is_authenticated %}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <img src="{{ current_user.gravatar(size=18) }}">
+                            Account <b class="caret"></b>
+                        </a>
                         <ul class="dropdown-menu">
                             <li><a href="{{ url_for('auth.change_password') }}">Change Password</a></li>
-                            <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+                            <li><a href="{{ url_for('auth.change_email_request') }}">Change Email</a></li>
+                            <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
                         </ul>
                     </li>
-                {% else %}
-                    <li><a href="{{ url_for('auth.login') }}">Log In</a></li>
-                {% endif %}
+                    {% else %}
+                    <li><a class="waves-effect waves-light btn red signin"  href="{{ url_for('auth.login') }}">登录/注册</a></li>
+                    {% endif %}
+                    </li>
             </ul>
+            <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
         </div>
-    </div>
+    </nav>
 </div>
 {% endblock %}
 
@@ -58,6 +93,8 @@
 {% endblock %}
 
 {% block scripts %}
-{{ super() }}
-{{ moment.include_moment() }}
+<script src="//cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/materialize/0.97.8/js/materialize.min.js"></script>
+<!--script src="{{ url_for('static', filename='jquery-ui-1.12.1.custom/jquery-ui.min.js') }}" type="text/javascript"></script-->
+<script src="{{ url_for('static', filename='js/core.js') }}" type="text/javascript"></script>
 {% endblock %}
