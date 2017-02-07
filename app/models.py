@@ -250,5 +250,12 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
+#class Item(db.Model):
+class Item(object):
+    #__tablename__ = 'items'
+    #id = db.Column(db.Integer, primary_key=True)
+    #body = db.Column(db.Text)
+    id = 1
+    body = "Buy two apples, if see banana, then buy one"
 
 
