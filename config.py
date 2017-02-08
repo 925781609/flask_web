@@ -22,8 +22,8 @@ class Config:
     FLASKY_ADMIN = '925781609@qq.com'
     BOOTSTRAP_SERVE_LOCAL = True
     FLASKY_POSTS_PER_PAGE=20
-    FLASKY_FOLLOWERS_PER_PAGE = 1
-    FLASKY_COMMENTS_PER_PAGE = 1
+    FLASKY_FOLLOWERS_PER_PAGE = 20
+    FLASKY_COMMENTS_PER_PAGE = 20
 
     @staticmethod
     def init_app(app):

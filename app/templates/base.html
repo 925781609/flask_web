@@ -1,5 +1,5 @@
 {% block head %}
-<title>Blog</title>
+<title>13乎</title>
 <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link href="//cdn.bootcss.com/materialize/0.97.8/css/materialize.min.css" rel="stylesheet">
 <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
@@ -10,26 +10,30 @@
 {% block body %}
 <div class="navbar">
     <nav class="#00897b teal darken-1" role="navigation">
-        <div class="nav-wrapper container"><a id="logo-container" href="{{ url_for('main.index')}}" class="brand-logo">Home</a>
+        <div class="nav-wrapper container"><a id="logo-container" href="{{ url_for('main.index')}}" class="brand-logo">首页</a>
             <ul class="right hide-on-med-and-down">
-                <li><a href="https://github.com/925781609/web" target="_blank">Github</a></li>
-                {% if current_user.is_authenticated %}
-                <li><a href="{{ url_for('main.user', username=current_user.username) }}">Profile</a></li>
-                {% endif %}
                 <li class="dropdown">
-                    <a class='dropdown-button btn' href="#"  data-activates='dropdown1' >Apps</a>
-                    <ul id='dropdown1' class='dropdown-content'>
-                        <li><a href="{{ url_for('apps.guess_number') }}">Guess Number</a></li>
-                        <li><a href="{{ url_for('apps.todo_list') }}">To do-List(Not ready)</a></li>
+                    <a class='dropdown-button btn' href="#"  data-activates='dropdown-1' >关于</a>
+                    <ul id="dropdown-1", class='dropdown-content'>
+                        <li><a href="https://github.com/925781609/web" target="_blank">Github</a></li>
+                        <li><a href="https://github.com/925781609/Note" target="_blank">文档</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a class='dropdown-button btn' href="#"  data-activates='dropdown2' >应用</a>
+                    <ul id='dropdown2' class='dropdown-content'>
+                        <li><a href="{{ url_for('apps.guess_number') }}">猜数字</a></li>
+                        <li><a href="{{ url_for('apps.todo_list') }}">备忘录(Not ready)</a></li>
                     </ul>
                 {% if current_user.is_authenticated %}
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        Account <b class="caret"></b>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{{ url_for('auth.change_password') }}">Change Password</a></li>
-                        <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
+                    <a class='dropdown-button btn' href="#"  data-activates='dropdown3' >账户</a>
+                    <ul id="dropdown3", class='dropdown-content'>
+                        {% if current_user.is_authenticated %}
+                        <li><a href="{{ url_for('main.user', username=current_user.username) }}">个人信息</a></li>
+                        {% endif %}
+                        <li><a href="{{ url_for('auth.change_password') }}">修改密码</a></li>
+                        <li><a href="{{ url_for('auth.logout') }}">退出登录</a></li>
                     </ul>
                 </li>
                 {% else %}
@@ -38,28 +42,27 @@
                 </li>
             </ul>
             <ul id="nav-mobile" class="side-nav">
-                    <li><a href="https://github.com/925781609/web" target="_blank">Github</a></li>
-                    {% if current_user.is_authenticated %}
-                    <li><a href="{{ url_for('main.user', username=current_user.username) }}">Profile</a></li>
-                    {% endif %}
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" target='_blank'>Apps <b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" target='_blank'>应用<b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{ url_for('apps.guess_number') }}">Guess Number</a></li>
-                            <li><a href="{{ url_for('apps.todo_list') }}">To do-List(Not ready)</a></li>
+                            <li><a href="{{ url_for('apps.guess_number') }}">猜数字</a></li>
+                            <li><a href="{{ url_for('apps.todo_list') }}">备忘录(Not ready)</a></li>
                         </ul>
                     {% if current_user.is_authenticated %}
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            Account <b class="caret"></b>
+                            账户 <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{ url_for('auth.change_password') }}">Change Password</a></li>
-                            <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
+                            {% if current_user.is_authenticated %}
+                            <li><a href="{{ url_for('main.user', username=current_user.username) }}">个人主页</a></li>
+                            {% endif %}
+                            <li><a href="{{ url_for('auth.change_password') }}">修改密码</a></li>
+                            <li><a href="{{ url_for('auth.logout') }}">退出登录</a></li>
                         </ul>
                     </li>
                     {% else %}
-                    <li><a class="waves-effect waves-light btn red signin"  href="{{ url_for('auth.login') }}">登录/注册</a></li>
+                    <li><a class="waves-effect waves-light btn  signin"  href="{{ url_for('auth.login') }}">登录/注册</a></li>
                     {% endif %}
                     </li>
             </ul>
