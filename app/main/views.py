@@ -9,6 +9,9 @@ import os
 from PIL import Image
 from werkzeug import secure_filename
 import re
+# use to report weather 
+import urllib.request
+import json
 
 
 @main.route('/', methods=['GET', 'POST'])
@@ -31,8 +34,20 @@ def index():
             page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'] or 20 , 
             error_out=False )
     posts = pagination.items
+    ApiUrl= "http://www.weather.com.cn/weather1d/101020100.shtml"
+    info = "请先登录"
+    with urllib.request.urlopen(ApiUrl) as html:
+        #读取并解码
+        data=html.read().decode("utf-8")
+        #print(data)
+        line = re.split('\n', data)
+        #print(line)
+        for item in line:
+            weather = re.findall("var hour3data.*?n00,(.*?),0.*", item)
+            if len(weather) != 0:
+                info = "上海天气: "+weather[0] 
     return render_template('index.html', form=form, posts=posts,
-            pagination=pagination)
+            pagination=pagination, info=info)
 
 @main.route('/admin')
 @login_required
