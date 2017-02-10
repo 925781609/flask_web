@@ -12,7 +12,24 @@ import re
 # use to report weather 
 import urllib.request
 import json
-
+from threading import Thread
+info = "你好，请先登录"
+first_time = 1
+def get_weather(ApiUrl):
+    print('get_weather was called!')
+    global status
+    with urllib.request.urlopen(ApiUrl) as html:
+        #读取并解码
+        data=html.read().decode("utf-8")
+        #print(data)
+        line = re.split('\n', data)
+        #print(line)
+        for item in line:
+            weather = re.findall("var hour3data.*?n00,(.*?),0.*", item)
+            if len(weather) != 0:
+                global info
+                info = "上海天气: "+weather[0]
+    print('get_weather end called')
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
@@ -35,17 +52,11 @@ def index():
             error_out=False )
     posts = pagination.items
     ApiUrl= "http://www.weather.com.cn/weather1d/101020100.shtml"
-    info = "请先登录"
-    with urllib.request.urlopen(ApiUrl) as html:
-        #读取并解码
-        data=html.read().decode("utf-8")
-        #print(data)
-        line = re.split('\n', data)
-        #print(line)
-        for item in line:
-            weather = re.findall("var hour3data.*?n00,(.*?),0.*", item)
-            if len(weather) != 0:
-                info = "上海天气: "+weather[0] 
+    global first_time
+    if first_time == 1:
+        first_time = 0
+        thr = Thread(target=get_weather, args=[ApiUrl])
+        thr.start()
     return render_template('index.html', form=form, posts=posts,
             pagination=pagination, info=info)
 
