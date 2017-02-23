@@ -83,6 +83,12 @@ class User(UserMixin, db.Model):
 
     comments = db.relationship('Comment', backref='author', lazy='dynamic')
 
+    # signin & gold_coin related 
+    signin_num = db.Column(db.Integer, default=0)
+    signin_time = db.Column(db.DateTime(), default= datetime.utcnow)
+    gold_coin = db.Column(db.Integer, default=0)
+
+
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
         if self.role is None:

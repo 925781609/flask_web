@@ -13,6 +13,7 @@ import re
 import urllib.request
 import json
 from threading import Thread
+from random import randint
 info = "你好，请先登录"
 first_time = 1
 def get_weather(ApiUrl):
@@ -75,6 +76,23 @@ def for_moderator():
 @main.route('/user/<username>')
 def user(username):
     user = User.query.filter_by(username=username).first()
+    if user is None:
+        abort(404)
+    posts = user.posts.order_by(Post.timestamp.desc()).all() 
+    return render_template('user.html', user=user, posts=posts)
+
+@main.route('/user/signin')
+def sign_in( ):
+    print('current user is {}'.format(current_user.username))
+    user = User.query.filter_by(username=current_user.username).first()
+    if user.signin_num == None:
+        user.signin_num = 1
+    else:
+        user.signin_num +=1
+    if user.gold_coin == None:
+        user.gold_coin =randint(1, 4);
+    else:
+        user.gold_coin += randint(1, 4)
     if user is None:
         abort(404)
     posts = user.posts.order_by(Post.timestamp.desc()).all() 
