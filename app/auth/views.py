@@ -1,5 +1,5 @@
 from flask import render_template, redirect, request, url_for, flash
-from flask_login import login_user, login_required, current_user, logout_user, login_required
+from flask_login import login_user, login_required, current_user, logout_user
 
 from . import auth
 from .. import db
@@ -29,7 +29,7 @@ def login():
         token = user.generate_confirmation_token()
         send_mail(user.email, 'confirm Your Account', 'auth/email/confirm', user=user, token=token)
         flash('A Confirmation email has been sent to you by email.')
-        #return redirect(url_for('auth.login')) #seems doesnot need it any more 
+        #return redirect(url_for('auth.login')) #seems doesnot need it any more
     return render_template('auth/login.html', logform=logform, regform=regform)
 
 
@@ -39,8 +39,6 @@ def logout():
     logout_user()
     flash('You have been logged out')
     return redirect(url_for('main.index'))
-
-
 
 
 @auth.route('/confirm/<token>')
@@ -53,6 +51,7 @@ def confirm(token):
     else:
         flash('The confirmation link is invalid or has expired.')
     return redirect(url_for('main.index'))
+
 
 @auth.route('/change-password', methods=['GET','POST'])
 @login_required
@@ -78,11 +77,13 @@ def before_request():
         if not current_user.confirmed and request.endpoint[:5] != 'auth.':
             return redirect(url_for('auth.unconfirmed'))
 
+
 @auth.route('/unconfirmed')
 def unconfirmed():
-    if current_user.is_anonymous or  current_user.confirmed:
+    if current_user.is_anonymous or current_user.confirmed:
         return redirect(url_for('main.index'))
     return render_template('auth/unconfirmed.html')
+
 
 @auth.route('/confirm', methods=['GET', 'PSOT'])
 def resend_confirmation():
